@@ -1,0 +1,120 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{note}{Note}
+\theoremstyle{definition}
+\newtheorem*{defn}{Definition}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{lem}[thm]{Lemma}
+%Misc Commands
+\renewcommand{\(}{\left(}
+\renewcommand{\)}{\right)}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\renewcommand{\O}{\mathcal O}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\B}{\mathcal B}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\N}{\mathbb N}
+\renewcommand{\H}{\mathcal H}
+\renewcommand{\S}{\mathbb S}
+\renewcommand{\L}{\mathcal L}
+\renewcommand{\P}{\mathcal P}
+\newcommand{\U}{\mathcal U}
+\renewcommand{\d}{\textrm d}
+%Evans and Gariepy Style measure restriction
+\newcommand{\restricted}{
+  \,\raisebox{-.127ex}{\reflectbox{\rotatebox[origin=br]{-90}{$\lnot$}}}\,%
+}
+
+%derivative stuff
+\newcommand{\ppp}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pp}[1]{\frac{\partial }{\partial #1}}
+
+\newcommand{\weakconverge}{\rightharpoonup}
+\newcommand{\superseteq}{\supseteq}
+\newcommand{\barint}{\fint}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\supp}{Sup}
+\DeclareMathOperator*{\grad}{\nabla}
+\DeclareMathOperator*{\ugrad}{\vert\nabla\vert}
+
+
+\begin{document}
+
+\section*{Overview}
+
+\section{Computational Tools in Metric Spaces}
+
+\subsection*{Upper Gradient}
+The upper gradient represents the closest approximation to traditional calculus possible on a general metric space.  In particular, we can define the upper gradient without reference to a vector space.  The upper gradient is also close enough to the gradient to be useful.  For a relatively general class of functions on a relatively large class of metric spaces, we can find a unique upper gradient \cite{minimal-upper-gradient}.  In Euclidean space, the upper gradient is the norm of the gradient vector\cite{upper-gradient-euclidean}.  In other spaces, it is the operator norm of the gradient covector.\cite{upper-gradient-manifold}.
+
+An upper gradient of $f$ is defined as any function $g$ satisfying:
+\begin{defn}[Upper Gradient]\label{def:upper-gradient}
+A function $g$ is an \emph{upper gradient} of $f$ if for all rectifiable curves $\gamma$ parametrized by arc length,
+$$\left\vert f(\gamma(s)) - f(\gamma(0)) \right\vert \geq \int_\gamma g\d s $$
+\end{defn}
+As motivation for this definition, recall that if $g=\grad f$, then equality of the above equation is the fundamental theorem of calculus.
+
+We see that in order to define it, we need only that $f : X \rightarrow \mathbb R$, such that $X$ is a metric space (to define $\d s$).  However, $g$ is not unique, and potentially undefined.  We ensure at least one $g$ exists by requiring $f$ to be Lipschitz.  If $f$ is $\lambda$-Lipschitz, then $g=\lambda$ is an upper gradient.
+
+We would also like to ensure a minimal candidate exists.  However, it is not the case that even all Euclidean Lipschitz functions have strong derivatives.  Therefore, we look at weak derivatives.
+
+\begin{defn}[Weak Upper Gradient]\label{def:weak-upper-gradient}
+A function $g$ is a \emph{$p$-weak upper gradient} if $g$ satisfies the inequality in Definition \ref{def:upper-gradient} for $p$-almost every curve.
+\end{defn}
+
+The weak upper gradient has nice analytical properties.  The minimum of two $p$-weak upper gradients is a $p$-weak upper gradient, and decreasing sequences of $p$-weak upper gradients are bounded below by a $p$-weak upper gradient.
+
+As this is a computational paper, I suspect that we will mostly ignore $p$-weak upper gradients.  However, we may at times use the existance of $g$ in order to prove properties about it.
+
+One goal of this project is to provide consistent computational means of calculating approximations to upper gradients given only the set $X$, and the metric $d$.
+\subsection*{Geodesics}
+In analysis, linearity plays a large role.  The derivative is the linearization of the function.  We use lines to move about our vector space.  Ultimately, it is likely impossible to make up for the lack of linear operators in a general metric space.  However, I hope that in some computational aspects, geodesics will be able to replace lines, and we can carry some of the linear operator machinery through to vector spaces.
+
+As an example of the type of result we would like:
+\begin{conj}
+Let $g$ not be an upper gradient of $f$.  Then there exists a geodesic curve $\gamma$ with parameterized by arclength such that
+$$ \left\vert f(\gamma(s)) - f(\gamma(0)) \right\vert < \int_\gamma g $$
+\end{conj}
+
+\subsection*{Measures}
+
+There is at least one natural measure to consider with respect to a metric space.  The Hausdorff measure is defined:
+\begin{defn}[Hausdorff Measure] \label{def:hausdorff-measure}
+%%add later
+\end{defn}
+
+\section{Curvature in Metric Spaces}
+There are many traditional definitions of curvature.  In this project, we will focus on the curvature of subsets of the metric space.  Even still, there are several ways of obtaining embedded curvatures.  Some of these definitions extend meaningfully to a general metric spaces, while others do not.
+
+\subsection{Principle Curvatures}
+\subsection{Variation of Surface Measure}
+\subsection{Tube Formulae}
+\subsection{Second Fundamental Form}
+\subsection{Functional Analysis Methods}
+
+\section{Wild Metric Spaces}
+In order to develop a robust definition in metric spaces, we must identify metric spaces which are vastly different from Euclidean spaces, and even from normed spaces.  
+
+\subsection{Wild Sets in Familiar Space}
+\subsubsection*{Fractal Sets}
+\subsubsection*{Connected Sparse Subsets}
+
+\subsection{Unfamiliar Spaces}
+\subsubsection*{Non-smooth manifolds}
+\subsubsection*{Under Actuated Systems}
+\paragraph{Bicycle}
+A bicycle on a flat plane has $4$ coordinates which describe it.  It has a position $x$ and $y$, and the angle of each of its wheels $\theta_1$ and $\theta_2$.  However, a cyclist can only control two variables $\theta_1$ and the speed $ds$.  However, a cyclist can acheive any state in the $4$-dimensional state space controlling only $\theta_1$ and $s$.
+%%Fix this example
+\end{document}
