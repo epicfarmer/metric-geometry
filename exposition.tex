@@ -79,6 +79,7 @@ The weak upper gradient has nice analytical properties.  The minimum of two $p$-
 As this is a computational paper, I suspect that we will mostly ignore $p$-weak upper gradients.  However, we may at times use the existance of $g$ in order to prove properties about it.
 
 One goal of this project is to provide consistent computational means of calculating approximations to upper gradients given only the set $X$, and the metric $d$.
+
 \subsection*{Geodesics}
 In analysis, linearity plays a large role.  The derivative is the linearization of the function.  We use lines to move about our vector space.  Ultimately, it is likely impossible to make up for the lack of linear operators in a general metric space.  However, I hope that in some computational aspects, geodesics will be able to replace lines, and we can carry some of the linear operator machinery through to vector spaces.
 
@@ -88,12 +89,33 @@ Let $g$ not be an upper gradient of $f$.  Then there exists a geodesic curve $\g
 $$ \left\vert f(\gamma(s)) - f(\gamma(0)) \right\vert < \int_\gamma g $$
 \end{conj}
 
+\begin{defn}
+  We say that a metric space is \emph{<concept name>} % Fix me
+  if for any geodesic $\gamma$, $\gamma$ has infinite reach.
+\end{defn}
+
+\begin{defn}
+  We say that a metric space is weakly \emph{<concept name>} % Fix me
+  if for any two geodesic $\gamma$, $\tilde \gamma$, There exists a map $\xi : \gamma \rightarrow \tilde \gamma$ such that $d(\xi(x), x) = d(\tilde \gamma,x)$ and $\xi$ is continuous.
+
+\end{defn}
+
 \subsection*{Measures}
 
 There is at least one natural measure to consider with respect to a metric space.  The Hausdorff measure is defined:
+\begin{defn}[$\delta$-Open Cover] \label{def:delta-open-covar}
+  Let $\langle M, d rangle$ be a metric space and take $S \subseteq M$. A collection of sets $\mathcal O$ is a $\delta$-open cover of $S$ iff for each $O \subseteq \mathcal O$ $O$ is open and $\diam(O) < \delta$.
+\end{defn}
 \begin{defn}[Hausdorff Measure] \label{def:hausdorff-measure}
+  Let $\delta > 0$, and $\langle M, d rangle$ be a metric space.
+  Take $S \subseteq M$, and $\mathcal O$ a $\delta$-open cover of $S$.
+  We define the function
+  \begin{align*}
+    H_\delta^d(S) &= \inf_{\mathcal O} t \left\{ \sum_{i=1}^\infty (diam U_i)^d \mid\vert \cup_{i=1}^\infty U_i \superseteq S, \diam{(U_i)} < \delta \right\}
+  \end{align*}
 %%add later
 \end{defn}
+
 
 \section{Curvature in Metric Spaces}
 There are many traditional definitions of curvature.  In this project, we will focus on the curvature of subsets of the metric space.  Even still, there are several ways of obtaining embedded curvatures.  Some of these definitions extend meaningfully to a general metric spaces, while others do not.
@@ -105,7 +127,17 @@ There are many traditional definitions of curvature.  In this project, we will f
 \subsection{Functional Analysis Methods}
 
 \section{Wild Metric Spaces}
-In order to develop a robust definition in metric spaces, we must identify metric spaces which are vastly different from Euclidean spaces, and even from normed spaces.  
+In order to develop a robust definition in metric spaces, we must identify metric spaces which are vastly different from Euclidean spaces, and even from normed spaces.
+
+\subsection{Properties}
+\paragraph{Non-path connected}
+I think this breaks everything probably
+\paragraph{Unit ball non-convex}
+
+\paragraph{geodesics without infinite reach}
+In this case, the normal cone is hard to define.
+\paragraph{}
+\subsection{Haar Measures on Vector Spaces}
 
 \subsection{Wild Sets in Familiar Space}
 \subsubsection*{Fractal Sets}
@@ -116,5 +148,8 @@ In order to develop a robust definition in metric spaces, we must identify metri
 \subsubsection*{Under Actuated Systems}
 \paragraph{Bicycle}
 A bicycle on a flat plane has $4$ coordinates which describe it.  It has a position $x$ and $y$, and the angle of each of its wheels $\theta_1$ and $\theta_2$.  However, a cyclist can only control two variables $\theta_1$ and the speed $ds$.  However, a cyclist can acheive any state in the $4$-dimensional state space controlling only $\theta_1$ and $s$.
+
+\subsubsection*{Misc}
+Real Heisenberg groups
 %%Fix this example
 \end{document}

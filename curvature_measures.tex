@@ -1,0 +1,295 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+
+\usepackage{amsthm}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{lem}[thm]{Lemma}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{note}[thm]{Note}
+%Misc Commands
+\renewcommand{\(}{\left(}
+\renewcommand{\)}{\right)}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\renewcommand{\O}{\mathcal O}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\B}{\mathcal B}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\N}{\mathbb N}
+\renewcommand{\H}{\mathcal H}
+\renewcommand{\S}{\mathbb S}
+\renewcommand{\L}{\mathcal L}
+\renewcommand{\P}{\mathcal P}
+\newcommand{\U}{\mathcal U}
+\renewcommand{\d}{\textrm d}
+%Evans and Gariepy Style measure restriction
+\newcommand{\restricted}{
+  \,\raisebox{-.127ex}{\reflectbox{\rotatebox[origin=br]{-90}{$\lnot$}}}\,%
+}
+
+%derivative stuff
+\newcommand{\ppp}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pp}[1]{\frac{\partial }{\partial #1}}
+
+\newcommand{\weakconverge}{\rightharpoonup}
+\newcommand{\superseteq}{\supseteq}
+\newcommand{\barint}{\fint}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\supp}{Sup}
+\DeclareMathOperator*{\grad}{\nabla}
+\DeclareMathOperator*{\ugrad}{\vert\nabla\vert}
+\DeclareMathOperator*{\reach}{reach}
+\DeclareMathOperator*{\Nor}{Nor}
+\DeclareMathOperator*{\Tan}{Tan}
+\DeclareMathOperator*{\Unp}{Unp}
+\DeclareMathOperator*{\length}{len}
+\DeclareMathOperator*{\boundary}{Boundary}
+
+
+\begin{document}
+\section{Introduction}
+\section{Some definitions}
+\begin{defn}\label{def:M}
+  A set $M$ equipped with a function $d : M \times M \rightarrow \R$ is a \emph{metric space} if for any $x,y,z \in M$, $d$ satisfies:
+  % TODO : Intrinsic metric
+  % TODO : Hopf Rinow thm for geodesics.
+  \begin{itemize}
+  \item $d(x,y) = 0 \Leftrightarrow x = y$
+  \item $d(x,y) = d(y,x)$
+  \item $d(x,z) \leq d(x,y) + d(y,z)$
+  \end{itemize}
+\end{defn}
+
+\begin{defn}\label{def:upper-gradient}
+  A function $g$ is an \emph{upper gradient} of $f$ if for all rectifiable curves $\gamma$ parametrized by arc length,
+  $$\left\vert f(\gamma(s)) - f(\gamma(0)) \right\vert \geq \int_\gamma g\d s $$
+\end{defn}
+
+\begin{defn}
+  A function $\mu : 2^{M} \rightarrow \R$ is called a \emph{measure} if for every set $A \subseteq M$ and collection $\{A_k\}_{k=1}^{n}$ satisfying $A \subseteq \cup_{k=1}^n A_k$
+  \begin{itemize}
+  \item $\mu(A) \geq 0$
+  \item $\mu(\emptyset) = 0$
+  \item $\mu(A) \leq \sum_{k = 1}^n \mu(A_k)$
+  \end{itemize}
+\end{defn}
+
+\begin{defn}
+  There is a natural measure on $(M,d)$ such that for any isometry $g : M \rightarrow M$ and set $A \subseteq M$, $\mathcal L(A) = \mathcal L(g(A))$.  This is called the $\emph{Haar measure with respect to isometry}$ on $(M,d)$, and is unique up to multiplicative constant. We use $\mathcal L$ as a reference to lebesgue measure, which will be equivalent on euclidean space, but $\mathcal L$ is not in general lebesgue measure.
+\end{defn}
+
+\begin{defn}
+  We define some mathematical constants that are related to the multiplicative constant above. Fix some origin $0 \in M$. Then we define:
+  \begin{align*}
+       \alpha(k) &= \mathcal L(\{y \vert d(0,y) \leq 1\} &= 2^k\Gamma\left(\frac{1}{2}\right)^{k-1}\Gamma\left(\frac{k+1}{2}\right)\Gamma(k+1)^{-1}
+    \\ \beta(n,k) &= \frac{\alpha(k)\alpha(n-k)}{\alpha(n)\binom{n}{k}}
+    \\ \gamma(n,k,l) &= \frac{\beta(n,k)\beta(n,l)}{\beta(n,k+l-n)\beta(2n-k-l,n-l)}
+  \end{align*}
+\end{defn}
+\begin{defn}
+  $\mathcal H^k$ is the \emph{$k$-dimensional Hausdorff measure}. If $A \subseteq M$, then $\mathcal H^k(A)$ is the limit as $r \rightarrow 0^{+}$ of the infimum of the sums
+  \begin{align*}
+    \sum_{S \in F} \frac{\alpha(k)}{2^{k}} \diam(S)^k
+  \end{align*}
+  corresponding to all countable coverings $\mathcal F$ of $A$ such that $\diam(S) < r$ for any $S \in \mathcal F$.
+
+  We note that since diameter is a metric property, $k$-dimensional Hausdorff measure is preserved by isometry, and therefore for some $k$, $\mathcal L = \mathcal H^k$.
+\end{defn}
+\begin{defn}
+A subset of a metric space is called \emph{$k$-rectifiable} if and only if it is the image of a bounded subset of $\R_k$ under a Lipschitzian map.
+The union of a countable family of $k$-rectifiable sets is said to be countably $k$-rectifiable.
+\end{defn}
+\begin{rem}
+  If we can figure out a way to construct manifolds from metric spaces, then this would work there too.
+\end{rem}
+\begin{defn}
+  % FIX ME : This is incomplete.
+  We define the set of \emph{vectors} of $M$ to be $V = \{\gamma : [0,s] \rightarrow M$ of geodesic ray segments over $M$.
+  We define the set of \emph{co-vectors} to be the set of functions $\{\phi : V \rightarrow M\}$ satisfying:
+  \begin{itemize}
+  % \item If $\gamma,\tilde \gamma \in V$, and $\gamma(0) = \tilde \gamma(s)$ and $\gamma(s) = \tilde \gamma(0)$, then $\phi(\gamma) = - \phi(\tilde \gamma)$.
+  \item If $\gamma,\tilde \gamma \in V$, with equal length $s$ satisfying $\gamma(t) = \tilde \gamma(s-t)$, then $\phi(\gamma) = - \phi(\tilde \gamma)$.
+  \item If $\gamma, \tilde \gamma \in V$, such with different lengths $s < \tilde s$, satisfying $\gamma(t) = \tilde \gamma(t)$ for all $t \in [0,s]$, then $\phi(\tilde \gamma) = \frac{\tilde s}{s} \phi(\gamma)$.
+  \end{itemize}
+
+  %TODO : Return to the exterior algebras and grassman multiplication \Lambda
+\end{defn}
+\begin{defn}\label{def:upper-jacobian} % Not confident about this one
+  A function $g : M_1 \rightarrow M_2$ is an \emph{upper jacobian} of $f$ if for all rectifiable curves $\gamma$ parametrized by arc length,
+  $$d_2(\vert f(\gamma(s)), f(\gamma(0))) \geq \int_\gamma d_2(g(s_1), g(0))\d s_1 $$
+\end{defn}
+\begin{defn}
+  % FIX ME : This is incomplete
+  % TODO : This depends on the definition of the exterior algebras (see 2.9)
+  No clue
+\end{defn}
+\begin{rem}
+  Depends on previous
+\end{rem}
+\begin{rem}
+  Depends on previous
+\end{rem}
+\section{An integral formula concerning Hausdorff measure}
+\begin{conj}
+  Suppose $M,N$ are metric spaces of hausdorff dimension $m,n$ respectively. Let $f : M \rightarrow N$ be a Lipschitz map.
+  If $g$ is an upper jacobian for $f$, then
+  \begin{align*}
+    \int_A g(x) \d\mathcal H^mx \geq \int_N \mathcal H^{m-n}(A \cap f^{-1}{y})\d\mathcal H^ny
+  \end{align*}
+  and consequently
+  \begin{align*}
+    \int_X h(x)g(x) \d\mathcal H^mx \geq \int_N\int_{f^{-1}(y)}\mathcal h(x)\d\mathcal H^{m-n}x\d\mathcal H^ny
+  \end{align*}
+\end{conj}
+\begin{proof}
+  Part 1 - 3 as in reference (not 100\% sure)
+  Part 4 seems tricky
+  However, I think we can prove this directly with the upper jacobian definition and the radon nykodem derivative.
+\end{proof}
+\begin{rem}
+  Probably this will still hold, but we'll find out.
+\end{rem}
+\section{Sets with positive reach}
+\begin{defn}
+  If $A \subseteq M$, then $\delta_A: M \rightarrow \R$ is defined
+  \begin{align*}
+    \delta_A(x) &= \inf\left\{d(x,a) \middle\vert a \in A \right\}
+  \end{align*}
+  Furthermore, define $\Unp(A)$ to be the set of points $x \in M$ such that there exists a unique point $a \in A$ such that $\delta_A(x) = d(x,a)$.
+  We can use this to define $\xi_A : \Unp(A) \rightarrow A$ as the mapping from $x$ to it's unique closest point $a \in A$.
+  Moreover, we can define for $a \in A$,
+  \begin{align*}
+    \reach(A,a) &= \sup\left\{r \middle\vert \vert B_r(a) \subseteq \Unp(A) \right\}
+  \end{align*}
+  Finally, we define
+  \begin{align*}
+    \reach(A) &= \inf_{a \in A} \left\{\reach(A,a)\right\}
+  \end{align*}
+\end{defn}
+\begin{thm}
+  $\reach(A,a)$ is continuous for $A \subseteq M$, and if $A$ is closed, $0 \leq reach(\boundary{A}, a) \leq \reach(A,a) \leq \inf$ for $a \in \boundary(A)$. Finally if $\reach(A) > 0$, then $A$ is closed.
+\end{thm}
+\begin{proof}
+  Let $A \subseteq M$ and $a \in A$, and let $r = \reach(A,a)$.
+  Let $\varepsilon > 0$.
+  Choose $\delta$ such that ...
+  Let $b \in A$ such that $d(a,b) < \delta$.
+  We want to show that $\vert \reach(A,b) - r\vert < \varepsilon$.
+  Consider $B_{r - \varepsilon}(b)$.
+  Since $\delta = \varepsilon$, we know that $B_{r - \varepsilon}(b) \subseteq B_{r}(a)$.
+  By reach, we know that $B_{r}(a) \subseteq \Unp(A)$ and therefore that $B_{r - \varepsilon}(b) \subseteq \Unp A$ and that $\reach(A,b) > r - \varepsilon$.
+  Let $h > 0$, and consider $B_{r + \varepsilon + h}(b)$, we know that $B_{r+h}(a) \subseteq B_{r + \varepsilon + h}(b)$. Since $\reach(A,a) < r + h$, we know that $B_{r+h}(a)$ contains a point $y$ such that $y \notin \Unp A$, and therefore $B_{r + \varepsilon h}(b)$ also contains that point. Since $h$ was arbitrary, we know that $\reach(A,b) \leq r + \varepsilon$.
+
+  For the second part, it suffices to show that $\Unp(\boundary(A)) \subseteq \Unp(A)$. Let $x \in \Unp(\boundary(A))$ and let $a = \xi_{\boundary(A)}(x)$. If $x \in A$, then it is it's own unique closest point and therefore $x \in \Unp(A)$.  Suppose $x \notin A$. Suppose another point $\tilde a \in A$ exists such that $d(x,\tilde a) \leq d(x, a)$. Since $\tilde a \in A$ and $\tilde a \notin \boundary(A)$, it follows that $\tilde a \in Int(A)$. Since $M$ is a geodesic space, we can find a geodesic $\gamma$ such that $\gamma(0) = s$ and $\gamma(d(x,\tilde a)) = \tilde a$. Since $\tilde a$ is an interior point, and $x \notin A$, there exists some $b \in \boundary(A)$ such that $b \in \gamma$. $d(x,b) < d(x,\tilde a) \leq d(x,a)$ which contradicts $\xi_{\boundary(A)}(x) = a$.
+
+  For the third part, suppose $A$ is not closed. Then there exists $b \notin A$ such that ${a_i}_{i=1}^n$ converges to $b$. We can therefore choose $N$ large enough such that $\reach(A,a_i) < \varepsilon$ for any $\varepsilon > 0$, and therefore $\reach(A) = 0$.
+\end{proof}
+
+\begin{defn}
+  If $A \subseteq M$, and $a \in A$, then the set $\Tan(A,a)$ of all \emph{tangent vectors $A$ at $a$} consists of all geodesic curves $\gamma \subseteq M$ such that $\gamma(0) = a$ and either $\gamma(s) = a$ or for every $\varepsilon$ there exists a geodesic $\tilde \gamma$ and $\delta > 0$ such that
+  \begin{align*}
+    \tilde \gamma(\delta) &\in A
+    \\ d(a,\tilde\gamma(\delta)) &< \varepsilon
+    \\ \frac{1}{s}d(\gamma(s), \tilde\gamma(s)) &< \varepsilon
+  \end{align*}
+
+  % TODO : The \frac{1}{s} might not be kosher since we're not in a normed space.
+\end{defn}
+
+\begin{defn}
+  We want to say something like:
+  If $A \subseteq M$ and $a \in A$, then the set $\Nor(A,a)$ of all \emph{normal vectors to $A$ at $a$} consists of all geodesic curves $\gamma \subseteq M$ such that $\gamma(0) = a$ and that for all curves $\tilde \gamma \in \Tan(A,a)$ and all continuous projection maps $\pi_{\tilde\gamma} : \gamma \rightarrow \tilde \gamma$ satisfying $d(x,\pi(x)) = \delta_{\tilde \gamma}(x)$.
+  \begin{align*}
+    \int_{[0,s_{\gamma}]}\pi_{\tilde \gamma}(\gamma(s))\d s_{\tilde \gamma}\ &\leq 0
+  \end{align*}
+  In the case where geodesics have infinite reach, then $\pi_{\gamma}$ is unique and equal to $\xi_{\gamma}$.
+
+  % TODO : This is a bad definition in e.g., S2, since it means that nothing has a normal.  The normal vector cone should probably be a local property since tangents are a local property.
+  % TODO : Investigate what this even means in spaces where geodesics have only finite reach.
+\end{defn}
+\begin{conj}
+  We note that we can view $\Nor(A,a)$ as co-vectors, and therefore trivially, $\Nor(A,a)$ is the dual of $\Tan(A,a)$.
+
+  We suspect that $dim(\Tan(A,a)) + \dim(\Tan(A,a)) \geq n$ under some circumstances.
+  % FIX ME : What circumstances.
+  % TODO : Convex cone?
+\end{conj}
+
+\begin{rem}
+  % Fix me : This will need some conception of differentiation and gradient
+\end{rem}
+
+\begin{lem}
+  Not sure about this one.
+  % Suppose $f : O \rightarrow \R$ with $O \subseteq M$ open, $\gamma$ is a geodesic
+  % TODO : Figure out how this is used.
+\end{lem}
+
+\begin{conj}
+  For every nonempty closed subset $A \subseteq M$, the following statnements hold with $\delta = \delta_A$, $\xi = \xi_A$, and $U = \Unp A$:
+  \begin{enumerate}
+  \item $\vert delta(x) - \delta(y)\vert \leq d(x,y)$ whenever $x,y \in M$.
+  \item If $a \in A$ and
+    \begin{align*}
+      P &= \{\gamma \vert \gamma(0) = a \text{ and } \xi(\gamma(s)) = a\}
+   \\ Q &= \{\gamma \vert \gamma(0) = a \text{ and } \delta(\gamma(s)) = s\}
+    \end{align*}
+    then $P$ and $Q$ satisfy $P \subseteq Q \subseteq Nor(A,a)$.
+    % TODO : This really hammers it home that Nor should be a convex cone and locally defined
+  \item IFf $x \in M - A$ and $\delta$ is differentiable at $x$, then $x \in U$ and
+    $\frac{d(x,\xi(x))}{\delta(x)} = 1$ is an upper gradient for $\delta$. % This is probably useless
+  \item $\xi$ is continuous
+  \item $\delta$ is continuously differentiable on $\Int(U - A)$ and $\delta^2$ is continuously differentiable on $\int U$ with
+    \begin{align*}
+      g(x) &= 2 d(x,\xi(x)
+    \end{align*}
+    an upper gradient for $\delta^2$.
+    % This is also probably useless
+  \item If $a \in A$, $v \in M$ and
+    \begin{align*}
+      0 &< \tau = \sup\{t \vert \xi(\gamma(t)) = a\} < \infty
+    \end{align*}
+    then $\gamma(\tau) \notin \Int(U)$
+    % TODO : This one is probably false for some spaces.
+  \item If $x \in U$, $a = \xi(x)$, $\reach(A,a) > 0$, and $b \in A$, then:
+    % TODO : Figure out this part
+    % FIX ME : This is missing
+    \begin{align*}
+      ??? % This is an inner product thing
+    \end{align*}
+  \item If $0 < r < q < \infty$, $x,y \in U$
+    \begin{itemize}
+    \item $\delta(x) \leq r$
+    \item $\delta(y) \leq r$
+    \item $\reach(A,\xi(x)) \geq q$
+    \item $\reach(A,\xi(y)) \geq q$
+    \end{itemize}
+    then
+    % TODO : Think about whether this is true or not.
+    \begin{align*}
+      d(\xi(x),\xi(y)) &\leq \frac{q}{q-r}d(x,y)
+    \end{align*}
+  \item If $0 < s < r < \reach(A)$ and $g$ is an upper gradient for $\delta$, then $g$ is Lipschitz on $\{x \vert s \leq x \leq r\}$ and if $h$ is an upper gradient for $\delta^2$, then $h$ is Lipschitz on $\{x \vert x \leq r\}$.
+  \item This one is redundant with our definition % TODO : Check what this means
+  \item If $a \in A$, $\reach(A,a) > r > 0$, $\gamma$ a geodesic ray with $\gamma(0) = a$. If for any $\tilde \gamma$ of length $r$ with $\tilde \gamma(0) = a$, $\tilde \gamma (\gamma) \leq 0$, then
+    \begin{align*}
+      \lim_{t \rightarrow 0^{+}} \frac{\delta(\gamma(t))}{t} &= 0
+    \end{align*}
+  \item If $a \in A$ and $\reach(A,a) > r > 0$, then
+    \begin{align*}
+      \Nor(A,a) &= \{ \gamma \vert \exists \tilde \gamma \text{s.t.}  \length(\tilde \gamma) = r, \xi(\tilde \gamma(r)) = a, \tilde \gamma \subseteq \gamma \}
+    \end{align*}
+  \end{enumerate}
+
+\end{conj}
+
+\end{document}
